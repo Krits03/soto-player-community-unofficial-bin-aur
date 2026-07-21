@@ -37,6 +37,7 @@ package() {
   cp -r . "${pkgdir}/opt/soto-player-community/"
 
   # 符号链接到 /usr/bin（Electron 需要相对路径查找 resources）
+  install -dm755 "${pkgdir}/usr/bin"
   ln -sf "/opt/soto-player-community/soto-player-community" \
     "${pkgdir}/usr/bin/soto-player-community"
 
