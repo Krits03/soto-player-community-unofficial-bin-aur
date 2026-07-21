@@ -36,9 +36,12 @@ package() {
   install -dm755 "${pkgdir}/opt/soto-player-community"
   cp -r . "${pkgdir}/opt/soto-player-community/"
 
-  # 创建可执行文件符号链接
-  install -Dm755 soto-player-community \
+  # 符号链接到 /usr/bin（Electron 需要相对路径查找 resources）
+  ln -sf "/opt/soto-player-community/soto-player-community" \
     "${pkgdir}/usr/bin/soto-player-community"
+
+  # chrome-sandbox 需要 setuid
+  chmod 4755 "${pkgdir}/opt/soto-player-community/chrome-sandbox" 2>/dev/null || true
 
   # 移除冲突的捆绑系统库
   rm -f "${pkgdir}/opt/soto-player-community/libXss.so"* \
