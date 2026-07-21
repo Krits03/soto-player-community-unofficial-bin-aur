@@ -5,7 +5,7 @@ pkgname=soto-player-community-unofficial-bin
 pkgver=2.3.8
 pkgrel=5
 pkgdesc="非官方 - Soto Player-Community - 现代化跨平台桌面音乐播放器，支持丰富的歌词显示"
-arch=('aarch64')
+arch=('x86_64')
 url="https://github.com/Krits03/Soto-Player-Community"
 license=('AGPL-3.0')
 
@@ -19,13 +19,13 @@ optdepends=('pipewire: 音频后端'
 
 # === 源文件 ===
 _github="https://github.com/Krits03/Soto-Player-Community"
-_tarball="soto-player-community-${pkgver}-arm64.tar.gz"
-_dirname="soto-player-community-${pkgver}-arm64"
+_tarball="soto-player-community-${pkgver}-x64.tar.gz"
+_dirname="soto-player-community-${pkgver}-x64"
 _icon="soto-player-community.png"
 
 source=("${_tarball}::${_github}/releases/download/v${pkgver}/${_tarball}"
         "${_icon}::${_github}/raw/v${pkgver}/public/icons/favicon.png")
-sha256sums=('3cbac9c99e9c59c2d8fdbd90fcf32f6e5204bb92df0e42c2ada9873d19b50108'
+sha256sums=('18cff7785283af5a6243df37f9596b2c892a2af2ee4c7594e6a9b2dc702d0f21'
             'f3f4f3f17b9ced4d6258f5ece1f76693f33ee7d5d2629efb56e4a6e071b1cd83')
 
 # === 打包 ===
