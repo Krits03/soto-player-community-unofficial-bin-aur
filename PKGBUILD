@@ -3,9 +3,9 @@
 # === 包基本信息 ===
 pkgname=soto-player-community-unofficial-bin
 pkgver=2.3.8
-pkgrel=2
+pkgrel=4
 pkgdesc="非官方 - Soto Player-Community - 现代化跨平台桌面音乐播放器，支持丰富的歌词显示"
-arch=('x86_64')
+arch=('aarch64')
 url="https://github.com/Krits03/Soto-Player-Community"
 license=('AGPL-3.0')
 
@@ -19,35 +19,33 @@ optdepends=('pipewire: 音频后端'
 
 # === 源文件 ===
 _github="https://github.com/Krits03/Soto-Player-Community"
-_appimage="soto-player-community-${pkgver}-x86_64.AppImage"
+_tarball="soto-player-community-${pkgver}-arm64.tar.gz"
+_dirname="soto-player-community-${pkgver}-arm64"
 _icon="soto-player-community.png"
 
-source=("${_appimage}::${_github}/releases/download/v${pkgver}/${_appimage}"
+source=("${_tarball}::${_github}/releases/download/v${pkgver}/${_tarball}"
         "${_icon}::${_github}/raw/v${pkgver}/public/icons/favicon.png")
-sha256sums=('79e6d3e71b3e2ce35f8f51013c6c540f4a88a759c5538b3591d776e056fd543e'
+sha256sums=('3cbac9c99e9c59c2d8fdbd90fcf32f6e5204bb92df0e42c2ada9873d19b50108'
             'f3f4f3f17b9ced4d6258f5ece1f76693f33ee7d5d2629efb56e4a6e071b1cd83')
 
 # === 打包 ===
 package() {
-  # 提取 AppImage（避免运行时 FUSE 挂载问题）
-  chmod +x "${srcdir}/${_appimage}"
-  cd "${srcdir}"
-  ./"${_appimage}" --appimage-extract > /dev/null 2>&1
+  cd "${srcdir}/${_dirname}"
 
-  # 安装可执行文件
-  install -Dm755 "${srcdir}/squashfs-root/AppRun" \
+  # 安装主程序到 /opt
+  install -dm755 "${pkgdir}/opt/soto-player-community"
+  cp -r . "${pkgdir}/opt/soto-player-community/"
+
+  # 创建可执行文件符号链接
+  install -Dm755 soto-player-community \
     "${pkgdir}/usr/bin/soto-player-community"
 
-  # 安装资源文件
-  cp -r "${srcdir}/squashfs-root/usr/"* "${pkgdir}/usr/" 2>/dev/null || true
-  cp -r "${srcdir}/squashfs-root/etc/"* "${pkgdir}/etc/" 2>/dev/null || true
+  # 移除冲突的捆绑系统库
+  rm -f "${pkgdir}/opt/soto-player-community/libXss.so"* \
+        "${pkgdir}/opt/soto-player-community/libXtst.so"* \
+        "${pkgdir}/opt/soto-player-community/libnotify.so"*
 
-  # 移除与系统包冲突的捆绑库文件
-  rm -f "${pkgdir}/usr/lib/libXss.so"* \
-        "${pkgdir}/usr/lib/libXtst.so"* \
-        "${pkgdir}/usr/lib/libnotify.so"*
-
-  # 桌面文件（修正本地化语法）
+  # 桌面文件
   install -dm755 "${pkgdir}/usr/share/applications"
   cat > "${pkgdir}/usr/share/applications/soto-player-community.desktop" << 'DESKEOF'
 [Desktop Entry]
@@ -64,13 +62,8 @@ MimeType=audio/mpeg;audio/flac;audio/wav;audio/ogg;audio/aac;
 DESKEOF
 
   # 图标
-  find "${srcdir}/squashfs-root" -name "*.png" -path "*/icons/*" | head -1 | xargs -I{} install -Dm644 {} \
-    "${pkgdir}/usr/share/pixmaps/soto-player-community.png" 2>/dev/null || \
-    install -Dm644 "${srcdir}/${_icon}" \
-      "${pkgdir}/usr/share/pixmaps/soto-player-community.png"
+  install -Dm644 "${srcdir}/${_icon}" \
+    "${pkgdir}/usr/share/pixmaps/soto-player-community.png"
   install -Dm644 "${srcdir}/${_icon}" \
     "${pkgdir}/usr/share/icons/hicolor/120x120/apps/soto-player-community.png"
-
-  # 清理
-  rm -rf "${srcdir}/squashfs-root"
 }
