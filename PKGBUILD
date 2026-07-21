@@ -24,7 +24,7 @@ _icon="soto-player-community.png"
 
 source=("${_appimage}::${_github}/releases/download/v${pkgver}/${_appimage}"
         "${_icon}::${_github}/raw/v${pkgver}/public/icons/favicon.png")
-sha256sums=('6a43fb22dc3f79e9f98dc39963e1fbc27dcc2009c47f444fd73a5b1e44d89581'
+sha256sums=('79e6d3e71b3e2ce35f8f51013c6c540f4a88a759c5538b3591d776e056fd543e'
             'f3f4f3f17b9ced4d6258f5ece1f76693f33ee7d5d2629efb56e4a6e071b1cd83')
 
 # === 打包 ===
