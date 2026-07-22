@@ -3,7 +3,7 @@
 # === 包基本信息 ===
 pkgname=soto-player-community-unofficial-bin
 pkgver=2.3.8
-pkgrel=9
+pkgrel=10
 pkgdesc="非官方 - Soto Player-Community - 现代化跨平台桌面音乐播放器，支持丰富的歌词显示"
 arch=('x86_64')
 url="https://github.com/Krits03/Soto-Player-Community"
