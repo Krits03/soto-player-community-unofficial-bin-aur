@@ -53,7 +53,7 @@ package() {
   install -dm755 "${pkgdir}/usr/share/applications"
   cat > "${pkgdir}/usr/share/applications/soto-player-community.desktop" << 'DESKEOF'
 [Desktop Entry]
-Name=Soto Player-社区非官方版
+Name=Soto Player
 GenericName=Music Player
 Comment=跨平台桌面音乐播放器，支持丰富的歌词显示
 Exec=soto-player-community
